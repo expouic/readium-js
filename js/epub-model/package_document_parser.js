@@ -165,7 +165,7 @@ define(['jquery', 'underscore', '../epub-fetch/markup_parser', 'URIjs', './packa
         }
 
         function findXmlElemByLocalNameAnyNS(rootElement, localName, predicate) {
-            var elements = rootElement.getElementsByTagNameNS("*", localName);
+            var elements = (rootElement) ? rootElement.getElementsByTagNameNS("*", localName) : [];
             if (predicate) {
                 return _.find(elements, predicate);
             } else {
@@ -174,7 +174,7 @@ define(['jquery', 'underscore', '../epub-fetch/markup_parser', 'URIjs', './packa
         }
 
         function filterXmlElemsByLocalNameAnyNS(rootElement, localName, predicate) {
-            var elements = rootElement.getElementsByTagNameNS("*", localName);
+            var elements = (rootElement) ? rootElement.getElementsByTagNameNS("*", localName) : [];
             return _.filter(elements, predicate);
         }
 
@@ -220,12 +220,11 @@ define(['jquery', 'underscore', '../epub-fetch/markup_parser', 'URIjs', './packa
 
             metadata.author = getElemText(metadataElem, "creator");
             metadata.description = getElemText(metadataElem, "description");
-            metadata.epub_version =
-                packageElem.getAttribute("version") ? packageElem.getAttribute("version") : "";
+            metadata.epub_version = (packageElem) ? (packageElem.getAttribute("version") ? packageElem.getAttribute("version") : "") : "";
             metadata.id = getElemText(metadataElem,"identifier");
             metadata.language = getElemText(metadataElem, "language");
             metadata.modified_date = getMetaElemPropertyText(metadataElem, "dcterms:modified");
-            metadata.ncx = spineElem.getAttribute("toc") ? spineElem.getAttribute("toc") : "";
+            metadata.ncx = (spineElem) ? (spineElem.getAttribute("toc") ? spineElem.getAttribute("toc") : "") : "";
             metadata.pubdate = getElemText(metadataElem, "date");
             metadata.publisher = getElemText(metadataElem, "publisher");
             metadata.rights = getElemText(metadataElem, "rights");
